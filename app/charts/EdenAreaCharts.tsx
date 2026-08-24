@@ -117,54 +117,62 @@ function Grid({
 // ─────────────────────────────
 // AREA
 // ─────────────────────────────
-
 function EdenArea({
   dataKey,
-  variation = "solid",
+
+  variant = "solid",
+
   stroke = "var(--color-desktop)",
   strokeWidth = 2,
   fillOpacity = 0.3,
-  animation="none",
+
+  colors = [
+    "#3b82f6",
+    "#8b5cf6",
+    "#ec4899",
+  ],
+
+  animation = "none",
+
+  duration = 1,
+
   ...props
 }) {
-
-    const maskId=`mask-${dataKey}`
-  const gradientId = `gradient-${dataKey}`
+  const maskId = `area-mask-${dataKey}`
+  const gradientId = `area-gradient-${dataKey}`
 
   return (
     <>
       <defs>
-         {animation === "appear" && (
-          <mask id={maskId}>
 
+       
+        {animation === "appear" && (
+          <mask id={maskId}>
             <motion.rect
               x="0"
               y="0"
               width="100%"
               height="100%"
               fill="white"
-
               initial={{
-                scaleX: 0
+                scaleX: 0,
               }}
-
               animate={{
-                scaleX: 1
+                scaleX: 1,
               }}
-
               transition={{
-                duration: 1,
-                ease: [0, 0.7, 0.5, 1]
+                duration,
+                ease: [0, 0.7, 0.5, 1],
               }}
-
               style={{
-                originX: 0
+                originX: 0,
               }}
             />
-
           </mask>
         )}
-        {variation === "gradient" && (
+
+       
+        {variant === "gradient" && (
           <linearGradient
             id={gradientId}
             x1="0"
@@ -172,70 +180,56 @@ function EdenArea({
             x2="0"
             y2="1"
           >
-            <stop
-              offset="0%"
-              stopColor={stroke}
-              stopOpacity={0.5}
-            />
-
-            <stop
-              offset="50%"
-              stopColor={stroke}
-              stopOpacity={0.2}
-            />
-
-            <stop
-              offset="100%"
-              stopColor={stroke}
-              stopOpacity={0}
-            />
+            {colors.map((color, index) => (
+              <stop
+                key={index}
+                offset={`${(index / (colors.length - 1)) * 100}%`}
+                stopColor={color}
+                stopOpacity={
+                  index === colors.length - 1
+                    ? 0
+                    : 0.5
+                }
+              />
+            ))}
           </linearGradient>
         )}
+
       </defs>
 
       <Area
         dataKey={dataKey}
-        style={
-    animation === "appear"
-      ? {
-          mask: `url(#${maskId})`,
-        }
-      : undefined
-  }
+
+        stroke={stroke}
+        strokeWidth={strokeWidth}
+
         fill={
-          variation === "gradient"
+          variant === "gradient"
             ? `url(#${gradientId})`
             : stroke
         }
-        stroke={stroke}
-        strokeWidth={strokeWidth}
+
         fillOpacity={fillOpacity}
+
+        style={
+          animation === "appear"
+            ? {
+                mask: `url(#${maskId})`,
+              }
+            : undefined
+        }
+
         {...props}
       />
     </>
   )
 }
 
-
 // ─────────────────────────────
 // BAR
 // ─────────────────────────────
 
-function EdenBar({
-  dataKey,
-  fill = "var(--color-desktop)",
-  radius = 4,
-  ...props
-}) {
-  return (
-    <Bar
-      dataKey={dataKey}
-      fill={fill}
-      radius={radius}
-      {...props}
-    />
-  )
-}
+
 
 
 // ─────────────────────────────

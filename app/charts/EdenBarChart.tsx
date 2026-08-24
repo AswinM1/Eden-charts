@@ -126,96 +126,99 @@ function Grid({
 
 function EdenBar({
   dataKey,
-  fill = "red",
+  fill = `var(--color-${dataKey})`,
   radius = 4,
+
   animation = "none",
-  widthValue="12px",
- 
+
+  variant = "solid",
+  colors = ["#3b82f6", "#8b5cf6", "#ec4899"],
+
   ...props
 }) {
-    const gradientId=  const gradientId = `linear-gradient-${dataKey}`
+  const gradientId = `linear-gradient-${dataKey}`
+
+  const barFill =
+    variant === "gradient"
+      ? `url(#${gradientId})`
+      : fill
+
   return (
     <>
-    <defs>
-         <linearGradient
+      {variant === "gradient" && (
+        <defs>
+          <linearGradient
             id={gradientId}
             x1="0%"
             y1="0%"
             x2="0%"
             y2="100%"
           >
-            <stop offset="0%" stopColor="#3b82f6" />
-            <stop offset="50%" stopColor="#8b5cf6" />
-            <stop offset="100%" stopColor="#ec4899" />
+            {colors.map((color, index) => (
+              <stop
+                key={index}
+                offset={`${(index / (colors.length - 1)) * 100}%`}
+                stopColor={color}
+              />
+            ))}
           </linearGradient>
-    </defs>
-    <Bar
-      dataKey={dataKey}
-      fill={fill}
-      radius={radius}
-      isAnimationActive={false}
-      shape={
-        (barProps) => {
-        const {
-          x,
-          y,
-          width,
-          height,
-        } = barProps
-      
+        </defs>
+      )}
 
-        if (animation === "expand") {
-              const initialX = x + (width - 10) / 2
+      <Bar
+        dataKey={dataKey}
+        fill={barFill}
+        radius={radius}
+        isAnimationActive={false}
+        shape={(barProps) => {
+          const {
+            x,
+            y,
+            width,
+            height,
+          } = barProps
+
+          if (animation === "expand") {
+            return (
+              <motion.rect
+                x={x}
+                y={y}
+                width={width}
+                height={height}
+                rx={radius}
+                fill={barFill}
+                initial={{
+                  opacity: 0,
+                  scaleY: 0,
+                }}
+                animate={{
+                  opacity: 1,
+                  scaleY: 1,
+                }}
+                style={{
+                  transformOrigin: `${x + width / 2}px ${y + height}px`,
+                }}
+                transition={{
+                  duration: 0.6,
+                  ease: "easeOut",
+                }}
+              />
+            )
+          }
+
           return (
-            <motion.rect
+            <rect
               x={x}
               y={y}
               width={width}
               height={height}
               rx={radius}
-              
-              initial={{
-                opacity: 1,
-                z:0,
-                filter:"blur(0px)"
-            
-              }}
-              
-              whileHover={{
-                opacity: 1,
-              
-                z:10,
-                scale:1.2,
-               
-             
-
-              }}
-              
-              transition={{
-                duration: 0.3,
-                ease: "easeOut",
-              }}
+              fill={barFill}
             />
           )
-        }
-
-        return (
-          <rect
-            x={x}
-            y={y}
-            width={width}
-            height={height}
-            rx={radius}
-            fill={
-          fill=== "gradient"
-            ? `url(#${gradientId})`
-            : `var(--color-${dataKey})`
-        }
-          />
-        )
-      }}
-      {...props}
-    />
+        }}
+        {...props}
+      />
     </>
   )
 }
