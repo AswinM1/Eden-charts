@@ -4,32 +4,61 @@ import EdenAreaCharts from "./charts/EdenAreaCharts";
 import { ChartConfig } from "@/components/ui/chart";
 import EdenBarChart from "./charts/EdenBarChart";
 import EdenLineCharts from "./charts/EdenLineCharts";
+import EdenPieChart from "./charts/EdenPieCharts";
 
 export default function Home() {
-  const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "#2563eb",
+const chartConfig = {
+  chrome: {
+    label: "Chrome",
+    colors: {
+      light: ["#3b82f6"],
+      dark: ["#60a5fa"],
+    },
   },
-  mobile: {
-    label: "Mobile",
-    color: "#60a5fa",
+  safari: {
+    label: "Safari",
+    colors: {
+      light: ["#10b981"],
+      dark: ["#34d399"],
+    },
   },
-} satisfies ChartConfig
+  firefox: {
+    label: "Firefox",
+    colors: {
+      light: ["#f59e0b"],
+      dark: ["#fbbf24"],
+    },
+  },
+  edge: {
+    label: "Edge",
+    colors: {
+      light: ["#8b5cf6"],
+      dark: ["#a78bfa"],
+    },
+  },
+  other: {
+    label: "Other",
+    colors: {
+      light: ["#6b7280"],
+      dark: ["#9ca3af"],
+    },
+  },
+} satisfies ChartConfig;
 
-  const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-]
+
+
+const data = [
+  { browser: "chrome", visitors: 275 },
+  { browser: "safari", visitors: 200 },
+  { browser: "firefox", visitors: 187 },
+  { browser: "edge", visitors: 173 },
+  { browser: "other", visitors: 90 },
+];
+
   return (
 
- <EdenAreaCharts config={chartConfig} data={chartData}>
-  <EdenAreaCharts.Area dataKey="mobile" animation="appear"></EdenAreaCharts.Area>
- </EdenAreaCharts>
-
+  <EdenPieChart dataKey="visitors" nameKey="browser" data={data} config={chartConfig} animation="appear" >
+    <EdenPieChart.Legend></EdenPieChart.Legend>
+  </EdenPieChart>
   );
 }

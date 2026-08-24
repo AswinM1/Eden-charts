@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import {motion} from "motion/react"
 
 import {
   Bar,
@@ -26,8 +27,12 @@ function EdenBarChart({
   data,
   config,
   classname = "h-[300px] w-full",
+  animation="none",
   children,
+  gap="5%"
 }) {
+
+    
   return (
     <ChartContainer
       config={config}
@@ -36,6 +41,9 @@ function EdenBarChart({
       <BarChart
         accessibilityLayer
         data={data}
+        barCategoryGap={gap}
+     
+        
       >
         {children}
       </BarChart>
@@ -94,9 +102,6 @@ function YAxis({
 }
 
 
-// ─────────────────────────────
-// GRID
-// ─────────────────────────────
 
 function Grid({
   vertical = false,
@@ -121,9 +126,11 @@ function Grid({
 
 function EdenBar({
   dataKey,
-  variation = "solid",
-  fill = "var(--color-desktop)",
+  fill = "red",
   radius = 4,
+  animation = "none",
+  widthValue="12px",
+ 
   ...props
 }) {
   return (
@@ -131,12 +138,67 @@ function EdenBar({
       dataKey={dataKey}
       fill={fill}
       radius={radius}
+      isAnimationActive={false}
+      shape={
+        (barProps) => {
+        const {
+          x,
+          y,
+          width,
+          height,
+        } = barProps
+      
+
+        if (animation === "expand") {
+              const initialX = x + (width - 10) / 2
+          return (
+            <motion.rect
+              x={x}
+              y={y}
+              width={width}
+              height={height}
+              rx={radius}
+              
+              initial={{
+                opacity: 1,
+                z:0,
+                filter:"blur(0px)"
+            
+              }}
+              
+              whileHover={{
+                opacity: 1,
+              
+                z:10,
+                scale:1.2,
+               
+             
+
+              }}
+              
+              transition={{
+                duration: 0.3,
+                ease: "easeOut",
+              }}
+            />
+          )
+        }
+
+        return (
+          <rect
+            x={x}
+            y={y}
+            width={width}
+            height={height}
+            rx={radius}
+            fill={fill}
+          />
+        )
+      }}
       {...props}
     />
   )
 }
-
-
 // ─────────────────────────────
 // TOOLTIP
 // ─────────────────────────────

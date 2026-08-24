@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import { motion } from "motion/react"
 
 import {
   Pie,
@@ -8,74 +9,116 @@ import {
   Tooltip as RechartsTooltip,
   Legend as RechartsLegend,
   Cell,
+  Sector,
 } from "recharts"
 
-import {
-  ChartContainer,
-} from "@/components/ui/chart"
+import { ChartContainer } from "@/components/ui/chart"
 
 
-// ─────────────────────────────
-// ROOT
-// ─────────────────────────────
-
-function EdenPieCharts({
+function EdenPieChart({
   data,
   config,
+  nameKey,
+  dataKey,
   classname = "h-[300px] w-full",
   children,
+  fill = "var(--color-desktop)",
+  innerRadius = 0,
+  outerRadius = "80%",
+  paddingAngle = 0,
+  animation = "none",
+  ...props
 }) {
   return (
     <ChartContainer
       config={config}
       className={classname}
     >
-      <PieChart accessibilityLayer>
+      <PieChart>
+
+        <Pie
+          data={data}
+          dataKey={dataKey}
+          nameKey={nameKey}
+          innerRadius={innerRadius}
+          outerRadius={outerRadius}
+          paddingAngle={paddingAngle}
+          isAnimationActive={true}
+          shape={(pieProps) => {
+            const {
+              cx,
+              cy,
+              innerRadius,
+              outerRadius,
+              startAngle,
+              endAngle,
+              fill,
+            } = pieProps
+
+            if (animation === "appear") {
+              return (
+                <motion.g
+                  initial={{
+                    scale: 1,
+                    opacity: 1,
+                  }}
+                  whileHover={{
+                    scale: 1.2,
+                    filter:["blur(6px),blur(0px)"],
+                    opacity: 1,
+                  }}
+                  transition={{
+                    duration: 0.3,
+                    ease: "easeOut",
+                  }}
+                  style={{
+                    transformOrigin: `${cx}px ${cy}px`,
+                  }}
+                >
+                  <Sector
+                    cx={cx}
+                    cy={cy}
+                    innerRadius={innerRadius}
+                    outerRadius={outerRadius}
+                    startAngle={startAngle}
+                    endAngle={endAngle}
+                    fill={fill}
+                  />
+                </motion.g>
+              )
+            }
+
+            return (
+              <Sector
+                cx={cx}
+                cy={cy}
+                innerRadius={innerRadius}
+                outerRadius={outerRadius}
+                startAngle={startAngle}
+                endAngle={endAngle}
+                fill={fill}
+              />
+            )
+          }}
+          {...props}
+        >
+          {data?.map((entry, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={entry.fill || fill}
+            />
+          ))}
+        </Pie>
+
         {children}
+
       </PieChart>
     </ChartContainer>
   )
 }
 
 
-// ─────────────────────────────
-// PIE
-// ─────────────────────────────
-
-function EdenPie({
-  data,
-  dataKey,
-  nameKey,
-  fill = "var(--color-desktop)",
-  innerRadius = 0,
-  outerRadius = "80%",
-  paddingAngle = 0,
-  ...props
-}) {
-  return (
-    <Pie
-      data={data}
-      dataKey={dataKey}
-      nameKey={nameKey}
-      innerRadius={innerRadius}
-      outerRadius={outerRadius}
-      paddingAngle={paddingAngle}
-      {...props}
-    >
-      {data?.map((entry, index) => (
-        <Cell
-          key={`cell-${index}`}
-          fill={entry.fill || fill}
-        />
-      ))}
-    </Pie>
-  )
-}
-
-
-// ─────────────────────────────
 // TOOLTIP
-// ─────────────────────────────
 
 function Tooltip({
   ...props
@@ -88,9 +131,7 @@ function Tooltip({
 }
 
 
-// ─────────────────────────────
 // LEGEND
-// ─────────────────────────────
 
 function Legend({
   verticalAlign = "bottom",
@@ -101,18 +142,13 @@ function Legend({
     <RechartsLegend
       verticalAlign={verticalAlign}
       align={align}
-      {...props}
-    />
+      {...props}></RechartsLegend>
   )
 }
 
 
-// ─────────────────────────────
-// COMPOUND API
-// ─────────────────────────────
 
-EdenPieCharts.Pie = EdenPie
-EdenPieCharts.Tooltip = Tooltip
-EdenPieCharts.Legend = Legend
+EdenPieChart.Tooltip = Tooltip
+EdenPieChart.Legend = Legend
 
-export default EdenPieCharts
+export default EdenPieChart
