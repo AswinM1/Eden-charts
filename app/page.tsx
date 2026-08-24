@@ -62,6 +62,7 @@ const data = [
   <EdenRadarCharts
   data={data}
   config={chartConfig}
+
  
 >
   <EdenRadarCharts.Grid />
@@ -72,7 +73,7 @@ const data = [
     dataKey="visitors"
     variant="gradient"
     animation="appear"
-    isClickable
+    fill="gradient"
   />
 
   <EdenRadarCharts.Tooltip />

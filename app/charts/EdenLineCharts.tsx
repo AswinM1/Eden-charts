@@ -145,71 +145,103 @@ function EdenLine({
   dataKey,
   stroke = "var(--color-desktop)",
   strokeWidth = 2,
-  type = "monotone",
   dot = false,
   activeDot = true,
   animation = "none",
-  duration = 1,
+  duration = 0.3,
+  variant = "gradient",
+  colors = [],
+
   ...props
 }) {
+  const gradientId = `line-gradient-${dataKey}`
+
   return (
-    <Line
-      dataKey={dataKey}
-      stroke={stroke}
-      strokeWidth={strokeWidth}
-      type={type}
-      dot={dot}
-      activeDot={activeDot}
-      isAnimationActive={false}
-      shape={(lineProps) => {
-        const { points } = lineProps
+    <>
+      {variant === "gradient" && (
+        <defs>
+          <linearGradient
+            id={gradientId}
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="0%"
+          >
+            {colors.map((color, index) => (
+              <stop
+                key={index}
+                offset={`${(index / (colors.length - 1)) * 100}%`}
+                stopColor={color}
+              />
+            ))}
+          </linearGradient>
+        </defs>
+      )}
 
-        if (!points || points.length === 0) {
-          return null
+      <Line
+        dataKey={dataKey}
+        stroke={
+          variant === "gradient"
+            ? `url(#${gradientId})`
+            : stroke
         }
+        strokeWidth={strokeWidth}
+        dot={dot}
+        activeDot={activeDot}
+        isAnimationActive={false}
+        shape={(lineProps) => {
+          const { points } = lineProps
 
-        
-        const path = points
-          .map((point, index) =>
-            `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`
-          )
-          .join(" ")
+          if (!points || points.length === 0) {
+            return null
+          }
 
-        if (animation === "appear") {
+          const path = points
+            .map((point, index) =>
+              `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`
+            )
+            .join(" ")
+
+          const lineStroke =
+            variant === "gradient"
+              ? `url(#${gradientId})`
+              : stroke
+
+          if (animation === "appear") {
+            return (
+              <motion.path
+                d={path}
+                fill="none"
+                stroke={lineStroke}
+                strokeWidth={strokeWidth}
+                initial={{
+                  pathLength: 0,
+                }}
+                animate={{
+                  pathLength: 1,
+                }}
+                transition={{
+                  duration,
+                  ease: "easeOut",
+                }}
+              />
+            )
+          }
+
           return (
-            <motion.path
+            <path
               d={path}
               fill="none"
-              stroke={stroke}
+              stroke={lineStroke}
               strokeWidth={strokeWidth}
-              initial={{
-                pathLength: 0,
-              }}
-              animate={{
-                pathLength: 1,
-              }}
-              transition={{
-                duration,
-                ease: "easeOut",
-              }}
             />
           )
-        }
-
-        return (
-          <path
-            d={path}
-            fill="none"
-            stroke={stroke}
-            strokeWidth={strokeWidth}
-          />
-        )
-      }}
-      {...props}
-    />
+        }}
+        {...props}
+      />
+    </>
   )
 }
-
 
 
 

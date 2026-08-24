@@ -133,7 +133,22 @@ function EdenBar({
  
   ...props
 }) {
+    const gradientId=  const gradientId = `linear-gradient-${dataKey}`
   return (
+    <>
+    <defs>
+         <linearGradient
+            id={gradientId}
+            x1="0%"
+            y1="0%"
+            x2="0%"
+            y2="100%"
+          >
+            <stop offset="0%" stopColor="#3b82f6" />
+            <stop offset="50%" stopColor="#8b5cf6" />
+            <stop offset="100%" stopColor="#ec4899" />
+          </linearGradient>
+    </defs>
     <Bar
       dataKey={dataKey}
       fill={fill}
@@ -191,12 +206,17 @@ function EdenBar({
             width={width}
             height={height}
             rx={radius}
-            fill={fill}
+            fill={
+          fill=== "gradient"
+            ? `url(#${gradientId})`
+            : `var(--color-${dataKey})`
+        }
           />
         )
       }}
       {...props}
     />
+    </>
   )
 }
 // ─────────────────────────────

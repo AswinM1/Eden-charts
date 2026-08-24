@@ -101,21 +101,46 @@ function EdenRadar({
   dataKey,
   stroke = "var(--color-desktop)",
   fill = "var(--color-desktop)",
-  fillOpacity = 0.3,
+  colors=["red","blue","green","yellow"],
+  fillOpacity = 0.7,
   strokeWidth = 2,
   dot = false,
   ...props
 }) {
+    const gradientId = `radial-gradient-${dataKey}`
   return (
+      <>
+      <defs>
+        {fill==="gradient" && (
+          <linearGradient
+            id={gradientId}
+            x1="0"
+            y1="0"
+            x2="1"
+            y2="1"
+          >
+           
+                 {colors.map((color, index) => (
+              <stop
+                key={index}
+                offset={`${(index / (colors.length - 1)) * 100}%`}
+                stopColor={color}
+              />
+            ))}
+          
+          </linearGradient>
+        )}
+      </defs>
     <Radar
       dataKey={dataKey}
       stroke={stroke}
-      fill={fill}
+      fill={fill==="gradient" ? `url(#${gradientId})` : fill}
       fillOpacity={fillOpacity}
       strokeWidth={strokeWidth}
       dot={dot}
       {...props}
     />
+    </>
   )
 }
 
