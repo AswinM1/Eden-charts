@@ -1,4 +1,95 @@
 ---
 title: Bar Chart
-description: Some description
+description: Beautifully designed bar charts with gradients and animations
 ---
+
+# Bar Chart
+
+Beautifully designed bar charts with customizable gradients,
+colors, rounded corners, and animations.
+
+## Basic Chart
+
+The `EdenBarChart` component is composable. The chart container
+accepts individual chart components as children.
+
+You can add:
+
+- `EdenBarChart.Grid`
+- `EdenBarChart.XAxis`
+- `EdenBarChart.YAxis`
+- `EdenBarChart.Bar`
+- `EdenBarChart.Tooltip`
+- `EdenBarChart.Legend`
+
+## Installation
+
+```bash
+npm install recharts motion
+```
+
+`variant="solid"`
+`variant="gradient"`
+## Animation
+Set `animation="expand"`to animate the bars when they appear.
+
+## Custom Colors
+```tsx
+<EdenBarChart.Bar dataKey="desktop"variant="gradient" colors={["#06b6d4" "#3b82f6","#8b5cf6",]}/>
+```
+## EdenBarChart
+
+The root chart container.
+
+
+
+| Prop        | Type                                  | Default              | Description                   |
+| ----------- | ------------------------------------- | -------------------- | ----------------------------- |
+| `data`      | `object[]`                            | —                    | Chart data.                   |
+| `config`    | `Record<string, ChartConfig[string]>` | —                    | Chart series configuration.   |
+| `children`  | `React.ReactNode`                     | —                    | Composable chart components.  |
+| `classname` | `string`                              | `"h-[300px] w-full"` | Custom chart container class. |
+| `gap`       | `string \| number`                    | `"5%"`               | Space between bar categories. |
+
+## EdenBarChart.Bar
+A single bar series.
+
+| Prop        | Type                    | Default                             | Description                             |
+| ----------- | ----------------------- | ----------------------------------- | --------------------------------------- |
+| `dataKey`   | `string`                | —                                   | Data property used by the bar.          |
+| `variant`   | `"solid" \| "gradient"` | `"solid"`                           | Bar fill style.                         |
+| `fill`      | `string`                | `var(--color-${dataKey})`           | Bar color when using the solid variant. |
+| `colors`    | `string[]`              | `["#3b82f6", "#8b5cf6", "#ec4899"]` | Colors used by the gradient.            |
+| `radius`    | `number`                | `4`                                 | Border radius of the bars.              |
+| `animation` | `"none" \| "expand"`    | `"none"`                            | Bar entrance animation.                 |
+
+XAxis and YAxis
+
+The category axis.
+| Prop            | Type                                   | Default | Description                               |
+| --------------- | -------------------------------------- | ------- | ----------------------------------------- |
+| `dataKey`       | `string`                               | —       | Key used to read category values.         |
+| `tickLine`      | `boolean`                              | `false` | Shows or hides tick lines.                |
+| `tickMargin`    | `number`                               | `7`     | Spacing between the axis and tick labels. |
+| `axisLine`      | `boolean`                              | `false` | Shows or hides the axis line.             |
+| `tickFormatter` | `(value: any) => string`               | —       | Formats displayed tick values.            |
+| `...props`      | `ComponentProps<typeof RechartsXAxis>` | —       | Additional Recharts XAxis properties.     |
+
+## Grid
+The background grid.
+| Prop              | Type                                   | Default | Description                          |
+| ----------------- | -------------------------------------- | ------- | ------------------------------------ |
+| `vertical`        | `boolean`                              | `false` | Shows vertical grid lines.           |
+| `horizontal`      | `boolean`                              | `true`  | Shows horizontal grid lines.         |
+| `strokeDasharray` | `string`                               | `"3 3"` | Controls the grid dash pattern.      |
+| `...props`        | `ComponentProps<typeof CartesianGrid>` | —       | Additional Recharts grid properties. |
+
+## Tooltip
+
+EdenBarChart.Tooltip wraps the Recharts tooltip
+
+| Prop       | Type                                     | Default | Description                             |
+| ---------- | ---------------------------------------- | ------- | --------------------------------------- |
+| `cursor`   | `boolean`                                | `false` | Controls the tooltip cursor.            |
+| `...props` | `ComponentProps<typeof RechartsTooltip>` | —       | Additional Recharts tooltip properties. |
+
