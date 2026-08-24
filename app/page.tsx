@@ -5,6 +5,7 @@ import { ChartConfig } from "@/components/ui/chart";
 import EdenBarChart from "./charts/EdenBarChart";
 import EdenLineCharts from "./charts/EdenLineCharts";
 import EdenPieChart from "./charts/EdenPieCharts";
+import EdenRadarCharts from "./charts/EdenRadarCharts";
 
 export default function Home() {
 const chartConfig = {
@@ -57,8 +58,27 @@ const data = [
 
   return (
 
-  <EdenPieChart dataKey="visitors" nameKey="browser" data={data} config={chartConfig} animation="appear" >
-    <EdenPieChart.Legend></EdenPieChart.Legend>
-  </EdenPieChart>
+ 
+  <EdenRadarCharts
+  data={data}
+  config={chartConfig}
+ 
+>
+  <EdenRadarCharts.Grid />
+  <EdenRadarCharts.AngleAxis dataKey="browser" />
+  <EdenRadarCharts.RadiusAxis />
+
+  <EdenRadarCharts.Radar
+    dataKey="visitors"
+    variant="gradient"
+    animation="appear"
+    isClickable
+  />
+
+  <EdenRadarCharts.Tooltip />
+  <EdenRadarCharts.Legend />
+</EdenRadarCharts>
+  
+
   );
 }

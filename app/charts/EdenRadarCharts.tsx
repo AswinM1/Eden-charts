@@ -3,8 +3,8 @@
 import React from "react"
 
 import {
-  Radar,
   RadarChart,
+  Radar,
   PolarGrid,
   PolarAngleAxis,
   PolarRadiusAxis,
@@ -12,11 +12,11 @@ import {
   Legend as RechartsLegend,
 } from "recharts"
 
-import {
-  ChartContainer,
-} from "@/components/ui/chart"
+import { ChartContainer } from "@/components/ui/chart"
 
-
+// ─────────────────────────────
+// ROOT
+// ─────────────────────────────
 
 function EdenRadarCharts({
   data,
@@ -39,7 +39,6 @@ function EdenRadarCharts({
   )
 }
 
-
 // ─────────────────────────────
 // GRID
 // ─────────────────────────────
@@ -58,7 +57,6 @@ function Grid({
   )
 }
 
-
 // ─────────────────────────────
 // ANGLE AXIS
 // ─────────────────────────────
@@ -74,7 +72,6 @@ function AngleAxis({
     />
   )
 }
-
 
 // ─────────────────────────────
 // RADIUS AXIS
@@ -95,7 +92,6 @@ function RadiusAxis({
     />
   )
 }
-
 
 // ─────────────────────────────
 // RADAR
@@ -123,7 +119,6 @@ function EdenRadar({
   )
 }
 
-
 // ─────────────────────────────
 // TOOLTIP
 // ─────────────────────────────
@@ -137,7 +132,6 @@ function Tooltip({
     />
   )
 }
-
 
 // ─────────────────────────────
 // LEGEND
@@ -156,7 +150,6 @@ function Legend({
     />
   )
 }
-
 
 // ─────────────────────────────
 // COMPOUND API

@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import { motion } from "motion/react"
 
 import {
   Line,
@@ -10,6 +11,7 @@ import {
   YAxis as RechartsYAxis,
   Tooltip as RechartsTooltip,
   Legend as RechartsLegend,
+    Brush
 } from "recharts"
 
 import {
@@ -63,6 +65,26 @@ function XAxis({
       tickMargin={tickMargin}
       axisLine={axisLine}
       tickFormatter={tickFormatter}
+      {...props}
+    />
+  )
+}
+
+function BrushSlider({
+  dataKey,
+  height = 60,
+  travellerWidth = 8,
+  startIndex = 0,
+  endIndex,
+  ...props
+}) {
+  return (
+    <Brush
+      dataKey={dataKey}
+      height={height}
+      travellerWidth={travellerWidth}
+      startIndex={startIndex}
+      endIndex={endIndex}
       {...props}
     />
   )
@@ -126,6 +148,8 @@ function EdenLine({
   type = "monotone",
   dot = false,
   activeDot = true,
+  animation = "none",
+  duration = 1,
   ...props
 }) {
   return (
@@ -136,15 +160,58 @@ function EdenLine({
       type={type}
       dot={dot}
       activeDot={activeDot}
+      isAnimationActive={false}
+      shape={(lineProps) => {
+        const { points } = lineProps
+
+        if (!points || points.length === 0) {
+          return null
+        }
+
+        
+        const path = points
+          .map((point, index) =>
+            `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`
+          )
+          .join(" ")
+
+        if (animation === "appear") {
+          return (
+            <motion.path
+              d={path}
+              fill="none"
+              stroke={stroke}
+              strokeWidth={strokeWidth}
+              initial={{
+                pathLength: 0,
+              }}
+              animate={{
+                pathLength: 1,
+              }}
+              transition={{
+                duration,
+                ease: "easeOut",
+              }}
+            />
+          )
+        }
+
+        return (
+          <path
+            d={path}
+            fill="none"
+            stroke={stroke}
+            strokeWidth={strokeWidth}
+          />
+        )
+      }}
       {...props}
     />
   )
 }
 
 
-// ─────────────────────────────
-// TOOLTIP
-// ─────────────────────────────
+
 
 function Tooltip({
   cursor = false,
@@ -178,9 +245,6 @@ function Legend({
 }
 
 
-// ─────────────────────────────
-// COMPOUND API
-// ─────────────────────────────
 
 EdenLineCharts.XAxis = XAxis
 EdenLineCharts.YAxis = YAxis
@@ -188,5 +252,6 @@ EdenLineCharts.Grid = Grid
 EdenLineCharts.Line = EdenLine
 EdenLineCharts.Tooltip = Tooltip
 EdenLineCharts.Legend = Legend
+EdenLineCharts.Brush = Brush
 
 export default EdenLineCharts
