@@ -4,6 +4,7 @@ import React from "react"
 
 import { ChartContainer } from "@/components/ui/chart"
 import { type ChartConfig } from "@/components/ui/chart"
+import {motion} from "motion/react"
 
 import {
   Area,
@@ -16,6 +17,7 @@ import {
   XAxis as RechartsXAxis,
   YAxis as RechartsYAxis,
 } from "recharts"
+import { mask } from "motion/react-client"
 
 function EdenAreaCharts({
   data,
@@ -122,13 +124,46 @@ function EdenArea({
   stroke = "var(--color-desktop)",
   strokeWidth = 2,
   fillOpacity = 0.3,
+  animation="none",
   ...props
 }) {
+
+    const maskId=`mask-${dataKey}`
   const gradientId = `gradient-${dataKey}`
 
   return (
     <>
       <defs>
+         {animation === "appear" && (
+          <mask id={maskId}>
+
+            <motion.rect
+              x="0"
+              y="0"
+              width="100%"
+              height="100%"
+              fill="white"
+
+              initial={{
+                scaleX: 0
+              }}
+
+              animate={{
+                scaleX: 1
+              }}
+
+              transition={{
+                duration: 1,
+                ease: [0, 0.7, 0.5, 1]
+              }}
+
+              style={{
+                originX: 0
+              }}
+            />
+
+          </mask>
+        )}
         {variation === "gradient" && (
           <linearGradient
             id={gradientId}
@@ -160,7 +195,13 @@ function EdenArea({
 
       <Area
         dataKey={dataKey}
-        
+        style={
+    animation === "appear"
+      ? {
+          mask: `url(#${maskId})`,
+        }
+      : undefined
+  }
         fill={
           variation === "gradient"
             ? `url(#${gradientId})`

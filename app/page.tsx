@@ -27,11 +27,9 @@ export default function Home() {
 ]
   return (
 
-  <EdenLineCharts config={chartConfig} data={chartData} >
-    <EdenLineCharts.Line dataKey="mobile"></EdenLineCharts.Line>
-    <EdenLineCharts.Tooltip></EdenLineCharts.Tooltip>
-    <EdenLineCharts.Legend key="mobile"></EdenLineCharts.Legend>
-  </EdenLineCharts>
+ <EdenAreaCharts config={chartConfig} data={chartData}>
+  <EdenAreaCharts.Area dataKey="mobile" animation="appear"></EdenAreaCharts.Area>
+ </EdenAreaCharts>
 
   );
 }
