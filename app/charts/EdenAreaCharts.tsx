@@ -43,16 +43,13 @@ function EdenAreaCharts({
 }
 
 
-// ─────────────────────────────
-// X AXIS
-// ─────────────────────────────
 
 function XAxis({
   dataKey,
   tickLine = false,
   tickMargin = 7,
   axisLine = false,
-  tickFormatter,
+  tickFormatter={},
   ...props
 }) {
   return (
@@ -156,13 +153,17 @@ function EdenArea({
               fill="white"
               initial={{
                 scaleX: 0,
+                filter:"blur(0px)"
               }}
               animate={{
                 scaleX: 1,
+              
               }}
               transition={{
-                duration,
-                ease: [0, 0.7, 0.5, 1],
+              
+                
+                duration:duration
+               
               }}
               style={{
                 originX: 0,
@@ -188,7 +189,7 @@ function EdenArea({
                 stopOpacity={
                   index === colors.length - 1
                     ? 0
-                    : 0.5
+                    : 1
                 }
               />
             ))}
