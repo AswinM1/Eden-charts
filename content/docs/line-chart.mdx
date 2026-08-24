@@ -1,4 +1,114 @@
 ---
 title: Line Chart
-description: Some description
+description: Beautifully designed line charts with gradients, animations, and brush controls.
 ---
+
+# Line Chart
+
+Beautifully designed line charts with customizable gradients,
+animations, and interactive brush controls.
+
+## Basic Chart
+
+
+The `EdenLineCharts` component is composable. The chart
+container accepts individual chart components as children.
+
+You can add:
+
+- `EdenLineCharts.Grid`
+- `EdenLineCharts.XAxis`
+- `EdenLineCharts.YAxis`
+- `EdenLineCharts.Line`
+- `EdenLineCharts.Tooltip`
+- `EdenLineCharts.Legend`
+- `EdenLineCharts.Brush`
+
+## Installation
+
+```bash
+npx shadcn@latest add chart
+```
+<CodePreview code={`"use client";
+
+import EdenLineCharts from "@/app/charts/EdenLineCharts";
+
+const data = [
+  {
+    month: "January",
+    desktop: 186,
+    mobile: 80,
+  },
+  {
+    month: "February",
+    desktop: 305,
+    mobile: 200,
+  },
+  {
+    month: "March",
+    desktop: 237,
+    mobile: 120,
+  },
+  {
+    month: "April",
+    desktop: 73,
+    mobile: 190,
+  },
+  {
+    month: "May",
+    desktop: 209,
+    mobile: 130,
+  },
+  {
+    month: "June",
+    desktop: 214,
+    mobile: 140,
+  },
+];
+
+const chartConfig = {
+  desktop: {
+    label: "Desktop",
+    color: "#3b82f6",
+  },
+  mobile: {
+    label: "Mobile",
+    color: "#8b5cf6",
+  },
+};
+
+export default function LineChartDemo() {
+  return (
+    <div className="w-full rounded-xl border border-white/10 bg-black/20 p-6">
+      <EdenLineCharts
+        data={data}
+        config={chartConfig}
+      >
+        <EdenLineCharts.Grid />
+
+        <EdenLineCharts.XAxis
+          dataKey="month"
+        />
+
+        <EdenLineCharts.YAxis />
+
+        <EdenLineCharts.Line
+          dataKey="desktop"
+          variant="solid"
+          stroke="#3b82f6"
+        />
+
+        <EdenLineCharts.Line
+          dataKey="mobile"
+          variant="solid"
+          stroke="#8b5cf6"
+        />
+
+        <EdenLineCharts.Tooltip />
+
+        <EdenLineCharts.Legend />
+      </EdenLineCharts>
+    </div>
+  );
+}`}/>
+
