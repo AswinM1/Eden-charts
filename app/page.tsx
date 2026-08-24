@@ -2,6 +2,8 @@
 import Image from "next/image";
 import EdenAreaCharts from "./charts/EdenAreaCharts";
 import { ChartConfig } from "@/components/ui/chart";
+import EdenBarChart from "./charts/EdenBarChart";
+import EdenLineCharts from "./charts/EdenLineCharts";
 
 export default function Home() {
   const chartConfig = {
@@ -24,18 +26,12 @@ export default function Home() {
   { month: "June", desktop: 214, mobile: 140 },
 ]
   return (
-<EdenAreaCharts config={chartConfig} data={chartData}>
-  <EdenAreaCharts.Grid />
-<EdenAreaCharts.XAxis dataKey={"month"} tickFormatter=""></EdenAreaCharts.XAxis>
 
-  <EdenAreaCharts.Area
-    dataKey="desktop"
-    variation="fill"
-  />
+  <EdenLineCharts config={chartConfig} data={chartData} >
+    <EdenLineCharts.Line dataKey="mobile"></EdenLineCharts.Line>
+    <EdenLineCharts.Tooltip></EdenLineCharts.Tooltip>
+    <EdenLineCharts.Legend key="mobile"></EdenLineCharts.Legend>
+  </EdenLineCharts>
 
-  <EdenAreaCharts.Tooltip />
-
-  <EdenAreaCharts.Legend />
-</EdenAreaCharts>
   );
 }

@@ -3,8 +3,8 @@
 import React from "react"
 
 import {
-  Bar,
-  BarChart,
+  Line,
+  LineChart,
   CartesianGrid,
   XAxis as RechartsXAxis,
   YAxis as RechartsYAxis,
@@ -22,7 +22,7 @@ import {
 // ROOT
 // ─────────────────────────────
 
-function EdenBarChart({
+function EdenLineCharts({
   data,
   config,
   classname = "h-[300px] w-full",
@@ -33,12 +33,12 @@ function EdenBarChart({
       config={config}
       className={classname}
     >
-      <BarChart
+      <LineChart
         accessibilityLayer
         data={data}
       >
         {children}
-      </BarChart>
+      </LineChart>
     </ChartContainer>
   )
 }
@@ -116,21 +116,26 @@ function Grid({
 
 
 // ─────────────────────────────
-// BAR
+// LINE
 // ─────────────────────────────
 
-function EdenBar({
+function EdenLine({
   dataKey,
-  variation = "solid",
-  fill = "var(--color-desktop)",
-  radius = 4,
+  stroke = "var(--color-desktop)",
+  strokeWidth = 2,
+  type = "monotone",
+  dot = false,
+  activeDot = true,
   ...props
 }) {
   return (
-    <Bar
+    <Line
       dataKey={dataKey}
-      fill={fill}
-      radius={radius}
+      stroke={stroke}
+      strokeWidth={strokeWidth}
+      type={type}
+      dot={dot}
+      activeDot={activeDot}
       {...props}
     />
   )
@@ -177,12 +182,11 @@ function Legend({
 // COMPOUND API
 // ─────────────────────────────
 
-EdenBarChart.XAxis = XAxis
-EdenBarChart.YAxis = YAxis
-EdenBarChart.Grid = Grid
-EdenBarChart.Bar = EdenBar
-EdenBarChart.Tooltip = Tooltip
-EdenBarChart.Legend = Legend
+EdenLineCharts.XAxis = XAxis
+EdenLineCharts.YAxis = YAxis
+EdenLineCharts.Grid = Grid
+EdenLineCharts.Line = EdenLine
+EdenLineCharts.Tooltip = Tooltip
+EdenLineCharts.Legend = Legend
 
-
-export default EdenBarChart
+export default EdenLineCharts

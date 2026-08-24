@@ -3,26 +3,22 @@
 import React from "react"
 
 import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  XAxis as RechartsXAxis,
-  YAxis as RechartsYAxis,
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
   Tooltip as RechartsTooltip,
   Legend as RechartsLegend,
 } from "recharts"
 
 import {
   ChartContainer,
-  type ChartConfig,
 } from "@/components/ui/chart"
 
 
-// ─────────────────────────────
-// ROOT
-// ─────────────────────────────
 
-function EdenBarChart({
+function EdenRadarCharts({
   data,
   config,
   classname = "h-[300px] w-full",
@@ -33,63 +29,13 @@ function EdenBarChart({
       config={config}
       className={classname}
     >
-      <BarChart
+      <RadarChart
         accessibilityLayer
         data={data}
       >
         {children}
-      </BarChart>
+      </RadarChart>
     </ChartContainer>
-  )
-}
-
-
-// ─────────────────────────────
-// X AXIS
-// ─────────────────────────────
-
-function XAxis({
-  dataKey,
-  tickLine = false,
-  tickMargin = 7,
-  axisLine = false,
-  tickFormatter,
-  ...props
-}) {
-  return (
-    <RechartsXAxis
-      dataKey={dataKey}
-      tickLine={tickLine}
-      tickMargin={tickMargin}
-      axisLine={axisLine}
-      tickFormatter={tickFormatter}
-      {...props}
-    />
-  )
-}
-
-
-// ─────────────────────────────
-// Y AXIS
-// ─────────────────────────────
-
-function YAxis({
-  dataKey,
-  tickLine = false,
-  tickMargin = 7,
-  axisLine = false,
-  tickFormatter,
-  ...props
-}) {
-  return (
-    <RechartsYAxis
-      dataKey={dataKey}
-      tickLine={tickLine}
-      tickMargin={tickMargin}
-      axisLine={axisLine}
-      tickFormatter={tickFormatter}
-      {...props}
-    />
   )
 }
 
@@ -99,16 +45,14 @@ function YAxis({
 // ─────────────────────────────
 
 function Grid({
-  vertical = false,
-  horizontal = true,
-  strokeDasharray = "3 3",
+  gridType = "polygon",
+  radialLines = true,
   ...props
 }) {
   return (
-    <CartesianGrid
-      vertical={vertical}
-      horizontal={horizontal}
-      strokeDasharray={strokeDasharray}
+    <PolarGrid
+      gridType={gridType}
+      radialLines={radialLines}
       {...props}
     />
   )
@@ -116,21 +60,64 @@ function Grid({
 
 
 // ─────────────────────────────
-// BAR
+// ANGLE AXIS
 // ─────────────────────────────
 
-function EdenBar({
+function AngleAxis({
   dataKey,
-  variation = "solid",
-  fill = "var(--color-desktop)",
-  radius = 4,
   ...props
 }) {
   return (
-    <Bar
+    <PolarAngleAxis
       dataKey={dataKey}
+      {...props}
+    />
+  )
+}
+
+
+// ─────────────────────────────
+// RADIUS AXIS
+// ─────────────────────────────
+
+function RadiusAxis({
+  tick = false,
+  axisLine = false,
+  tickCount = 5,
+  ...props
+}) {
+  return (
+    <PolarRadiusAxis
+      tick={tick}
+      axisLine={axisLine}
+      tickCount={tickCount}
+      {...props}
+    />
+  )
+}
+
+
+// ─────────────────────────────
+// RADAR
+// ─────────────────────────────
+
+function EdenRadar({
+  dataKey,
+  stroke = "var(--color-desktop)",
+  fill = "var(--color-desktop)",
+  fillOpacity = 0.3,
+  strokeWidth = 2,
+  dot = false,
+  ...props
+}) {
+  return (
+    <Radar
+      dataKey={dataKey}
+      stroke={stroke}
       fill={fill}
-      radius={radius}
+      fillOpacity={fillOpacity}
+      strokeWidth={strokeWidth}
+      dot={dot}
       {...props}
     />
   )
@@ -142,12 +129,10 @@ function EdenBar({
 // ─────────────────────────────
 
 function Tooltip({
-  cursor = false,
   ...props
 }) {
   return (
     <RechartsTooltip
-      cursor={cursor}
       {...props}
     />
   )
@@ -177,12 +162,11 @@ function Legend({
 // COMPOUND API
 // ─────────────────────────────
 
-EdenBarChart.XAxis = XAxis
-EdenBarChart.YAxis = YAxis
-EdenBarChart.Grid = Grid
-EdenBarChart.Bar = EdenBar
-EdenBarChart.Tooltip = Tooltip
-EdenBarChart.Legend = Legend
+EdenRadarCharts.Grid = Grid
+EdenRadarCharts.AngleAxis = AngleAxis
+EdenRadarCharts.RadiusAxis = RadiusAxis
+EdenRadarCharts.Radar = EdenRadar
+EdenRadarCharts.Tooltip = Tooltip
+EdenRadarCharts.Legend = Legend
 
-
-export default EdenBarChart
+export default EdenRadarCharts

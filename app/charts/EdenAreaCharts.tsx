@@ -241,7 +241,6 @@ EdenAreaCharts.XAxis = XAxis
 EdenAreaCharts.YAxis = YAxis
 EdenAreaCharts.Grid = Grid
 EdenAreaCharts.Area = EdenArea
-EdenAreaCharts.Bar = EdenBar
 EdenAreaCharts.Tooltip = Tooltip
 EdenAreaCharts.Legend = Legend
 
