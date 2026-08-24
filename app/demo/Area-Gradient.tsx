@@ -49,37 +49,30 @@ const chartConfig = {
 
 export default function AreaGradientDemo() {
   return (
-    <div className="w-full rounded-xl border border-white/10 bg-black/20 p-6">
-      <EdenAreaCharts
-        data={data}
-        config={chartConfig}
-      >
-        <EdenAreaCharts.Grid />
+    <EdenAreaCharts data={data} config={chartConfig}>
+      <EdenAreaCharts.Grid />
+      <EdenAreaCharts.XAxis dataKey="month" />
+      <EdenAreaCharts.YAxis />
 
-        <EdenAreaCharts.XAxis
-          dataKey="month"
-        />
+      <EdenAreaCharts.Area
+        dataKey="desktop"
+        variant="gradient"
+        animation="appear"
+         
+        fill="white"
+      />
 
-        <EdenAreaCharts.YAxis dataKey="mobile" tickFormatter={""} />
+      <EdenAreaCharts.Area
+        dataKey="mobile"
+        variant="gradient"
+        colors={["yellow","red"]}
+        fill="white"
+        animation="appear"
+        fillOpacity={1}
+      />
 
-        <EdenAreaCharts.Area
-          dataKey="desktop"
-          stroke="#3b82f6"
-          variation="gradient"
-          animation="appear"
-        />
-
-        <EdenAreaCharts.Area
-          dataKey="mobile"
-          stroke="#8b5cf6"
-          variation="gradient"
-          animation="appear"
-        />
-
-        <EdenAreaCharts.Tooltip />
-
-        <EdenAreaCharts.Legend />
-      </EdenAreaCharts>
-    </div>
+      <EdenAreaCharts.Tooltip />
+      <EdenAreaCharts.Legend />
+    </EdenAreaCharts>
   );
 }

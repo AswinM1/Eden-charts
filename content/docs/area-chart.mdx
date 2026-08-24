@@ -7,6 +7,8 @@ title: Area Chart
 description: Beautifully designed area charts with animations and gradients
 ---
 
+
+
 # Area Chart
 
 Beautifully designed area charts with customizable gradients
@@ -14,6 +16,7 @@ and built-in animations.
 
 ## Basic Chart
 
+<AreaChartDemo  />
 The `EdenAreaCharts` component is composable. The chart
 container accepts individual chart components as children.
 
@@ -28,14 +31,87 @@ You can add:
 
 ## Installation
 
-```bash
-npm install eden-charts
-```
-
 ## Usage
+<CodePreview  Preview={<AreaChartDemo/>}/>
 
 
 ## Preview
-
+<h2>`variant = "solid"`</h2>
 <AreaChartDemo  />
+
+<h2>`variant = "gradient"`</h2>
 <AreaGradientDemo/>
+
+
+
+
+# API Reference
+
+## EdenAreaCharts
+
+| Prop        | Type                                  | Default         | Description                   |
+| ----------- | ------------------------------------- | --------------- | ----------------------------- |
+| `data`      | `Record<string, unknown>[]`                            | —               | Chart data.                   |
+| `config`    | `Record<string, ChartConfig[string]>` | —               | Chart series configuration.   |
+| `children`  | `React.ReactNode`                     | —               | Chart components.             |
+| `classname` | `string`                              | `"h-25 w-full"` | Custom chart container class. |
+
+## Area
+
+`EdenAreaCharts.Area` renders an individual data series.
+
+| Prop          | Type                    | Default          | Description                     |
+| ------------- | ----------------------- | ---------------- | ------------------------------- |
+| `dataKey`     | `string`                | —                | Data property used by the area. |
+| `variant`     | `"solid" \| "gradient"` | `"solid"`        | Area fill style.                |
+| `fill`        | `string`                | `"blue"`         | Area and stroke color.          |
+| `strokeWidth` | `number`                | `2`              | Width of the area stroke.       |
+| `fillOpacity` | `number`                | `0.3`            | Opacity of the area fill.       |
+| `colors`      | `string[]`              | Blue/Purple/Pink | Colors used by the gradient.    |
+| `animation`   | `"none" \| "appear"`    | `"none"`         | Entrance animation.             |
+| `duration`    | `number`                | `1`              | Animation duration in seconds.  |
+#XAxis and YAxis
+`EdenAreaCharts.YAxis` controls the vertical axis.
+It wraps the Recharts `YAxis` component and forwards additional
+`YAxis` properties.
+
+| Prop            | Type                                   | Default | Description                                  |
+| --------------- | -------------------------------------- | ------- | -------------------------------------------- |
+| `dataKey`       | `string`                               | —       | Key used to read values from the chart data. |
+| `tickLine`      | `boolean`                              | `false` | Shows or hides tick lines.                   |
+| `tickMargin`    | `number`                               | `7`     | Spacing between tick labels and the axis.    |
+| `axisLine`      | `boolean`                              | `false` | Shows or hides the axis line.                |
+| `tickFormatter` | `(value: any) => string`               | —       | Formats displayed tick values.               |
+| `...props`      | `ComponentProps<typeof RechartsYAxis>` | —       | Additional Recharts YAxis properties.        |
+
+## Grid
+`EdenAreaCharts.Grid` renders the background grid of the chart.
+| Prop            | Type                                   | Default                                | Description                                            |
+| --------------- | -------------------------------------- | -------------------------------------- | ------------------------------------------------------ |
+| `dataKey`       | `string`                               | —                                      | The key used to read values from the chart data.       |
+| `tickLine`      | `boolean`                              | `false`                                | Shows or hides the tick lines.                         |
+| `tickMargin`    | `number`                               | `7`                                    | Controls the spacing between the axis and tick labels. |
+| `axisLine`      | `boolean`                              | `false`                                | Shows or hides the X-axis line.                        |
+| `tickFormatter` | `(value: any) => string`               | `(value) => String(value).slice(0, 3)` | Formats the displayed tick values.                     |
+| `...props`      | `ComponentProps<typeof RechartsXAxis>` | —                                      | Additional Recharts XAxis properties.                  |
+
+## Tooltip
+`EdenAreaCharts.Tooltip` follows the same documentation as Recharts 
+
+| Prop              | Type                                   | Default | Description                           |
+| ----------------- | -------------------------------------- | ------- | ------------------------------------- |
+| `vertical`        | `boolean`                              | `false` | Shows or hides vertical grid lines.   |
+| `horizontal`      | `boolean`                              | `true`  | Shows or hides horizontal grid lines. |
+| `strokeDasharray` | `string`                               | `"3 3"` | Controls the grid line dash pattern.  |
+| `...props`        | `ComponentProps<typeof CartesianGrid>` | —       | Additional Recharts grid properties.  |
+
+
+## Legend
+`EdenAreaCharts.Legend` displays the chart series.
+| Prop            | Type                                    | Default   | Description                            |
+| --------------- | --------------------------------------- | --------- | -------------------------------------- |
+| `verticalAlign` | `"top" \| "middle" \| "bottom"`         | `"top"`   | Vertical position of the legend.       |
+| `align`         | `"left" \| "center" \| "right"`         | `"right"` | Horizontal position of the legend.     |
+| `...props`      | `ComponentProps<typeof RechartsLegend>` | —         | Additional Recharts Legend properties. |
+
+### For Existing properties kindly check the <b>Recharts</b> documentation

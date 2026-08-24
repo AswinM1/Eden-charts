@@ -7,6 +7,7 @@ import {
 } from "fumadocs-ui/layouts/docs/page";
 import AreaChartDemo from "@/app/demo/Area-demo";
 import AreaGradientDemo from "@/app/demo/Area-Gradient";
+import { CodePreview } from "@/app/demo/CodePreview";
 
 export default async function Page({
   params,
@@ -26,7 +27,7 @@ export default async function Page({
   return (
     <DocsPage toc={page.data.toc}>
       <DocsBody>
-        <MDX components={{defaultMdxComponents,AreaChartDemo,AreaGradientDemo}} />
+        <MDX components={{defaultMdxComponents,AreaChartDemo,AreaGradientDemo,CodePreview}} />
       </DocsBody>
     </DocsPage>
   );

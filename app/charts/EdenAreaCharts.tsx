@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import type { ComponentProps } from "react"
 
 import { ChartContainer } from "@/components/ui/chart"
 import { type ChartConfig } from "@/components/ui/chart"
@@ -18,13 +19,22 @@ import {
   YAxis as RechartsYAxis,
 } from "recharts"
 import { mask } from "motion/react-client"
+import { Slice } from "lucide-react"
 
+
+type EdenAreaCharts={
+    data:object[],
+  config:Record<string, ChartConfig[string]>,
+  children:React.ReactNode,
+  classname?:string
+
+}
 function EdenAreaCharts({
   data,
   config,
-  classname = "h-[300px] w-full",
+  classname = "h-25 w-full",
   children,
-}) {
+}:EdenAreaCharts) {
   return (
     <div>
       <ChartContainer
@@ -49,9 +59,9 @@ function XAxis({
   tickLine = false,
   tickMargin = 7,
   axisLine = false,
-  tickFormatter={},
+ tickFormatter=(Value) => Value.slice(0, 3),
   ...props
-}) {
+}:ComponentProps<typeof RechartsXAxis>) {
   return (
     <RechartsXAxis
       dataKey={dataKey}
@@ -76,7 +86,7 @@ function YAxis({
   axisLine = false,
   tickFormatter,
   ...props
-}) {
+}:ComponentProps<typeof RechartsYAxis>) {
   return (
     <RechartsYAxis
       dataKey={dataKey}
@@ -99,7 +109,7 @@ function Grid({
   horizontal = true,
   strokeDasharray = "3 3",
   ...props
-}) {
+}:ComponentProps<typeof CartesianGrid>) {
   return (
     <CartesianGrid
       vertical={vertical}
@@ -114,15 +124,25 @@ function Grid({
 // ─────────────────────────────
 // AREA
 // ─────────────────────────────
-function EdenArea({
+type EdenArea={
+    dataKey:string,
+    variant:"solid"|"gradient",
+    fill?:string,
+    strokeWidth?:number,
+    fillOpacity? :number,
+    colors?:string[]
+    animation?:"none"|"appear"
+    duration?:number
+   
+
+    
+}
+function EdenArea ({
   dataKey,
-
   variant = "solid",
-
-  stroke = "var(--color-desktop)",
+  fill = "blue",
   strokeWidth = 2,
   fillOpacity = 0.3,
-
   colors = [
     "#3b82f6",
     "#8b5cf6",
@@ -134,7 +154,7 @@ function EdenArea({
   duration = 1,
 
   ...props
-}) {
+}:EdenArea) {
   const maskId = `area-mask-${dataKey}`
   const gradientId = `area-gradient-${dataKey}`
 
@@ -200,17 +220,18 @@ function EdenArea({
 
       <Area
         dataKey={dataKey}
-
-        stroke={stroke}
+       
+        stroke={fill}
         strokeWidth={strokeWidth}
 
         fill={
           variant === "gradient"
             ? `url(#${gradientId})`
-            : stroke
+            : fill
         }
 
         fillOpacity={fillOpacity}
+       
 
         style={
           animation === "appear"
@@ -225,10 +246,6 @@ function EdenArea({
     </>
   )
 }
-
-// ─────────────────────────────
-// BAR
-// ─────────────────────────────
 
 
 
@@ -258,7 +275,7 @@ function Legend({
   verticalAlign = "top",
   align = "right",
   ...props
-}) {
+}:ComponentProps<typeof RechartsLegend>) {
   return (
     <RechartsLegend
       verticalAlign={verticalAlign}
